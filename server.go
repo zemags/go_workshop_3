@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/zemags/go_workshop_3/controller"
+	"github.com/zemags/go_workshop_3/middlewares"
 	"github.com/zemags/go_workshop_3/service"
 )
 
@@ -12,7 +13,9 @@ var (
 )
 
 func main() {
-	server := gin.Default()
+	server := gin.New()
+
+	server.Use(gin.Recovery(), middlewares.Logger())
 
 	server.GET("/videos", func(ctx *gin.Context) {
 		ctx.JSON(200, videoController.FindAll())
